@@ -1,5 +1,5 @@
 # API exposing a simple CRUD
-FROM golang:1.23
+FROM golang:1.23 AS build-stage
 
 WORKDIR /app
 
@@ -11,6 +11,19 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -v -o /ativia-api ./cmd/ativia-api
 
-EXPOSE 1301
+# Run the tests in the container
+FROM build-stage AS run-test-stage
+RUN go test -v ./...
 
-CMD ["/ativia-api"]
+# Deploy the application binary into a lean image
+FROM gcr.io/distroless/base-debian11 AS build-release-stage
+
+WORKDIR /
+
+COPY --from=build-stage /ativia-api /ativia-api
+
+EXPOSE 2113
+
+USER nonroot:nonroot
+
+ENTRYPOINT ["/ativia-api"]
