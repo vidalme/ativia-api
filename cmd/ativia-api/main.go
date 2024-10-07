@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	routes.RegisterRoutes()
-	http.ListenAndServe(":2113", nil)
+	mux := routes.RegisterRoutes()
+	http.ListenAndServe(":2113", mux)
 }
