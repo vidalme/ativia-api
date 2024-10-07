@@ -3,10 +3,12 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/vidalme/ativia-api/internal/models"
 )
 
-func Default(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Ola ativia")
+func Index(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Ola ativia 0.0.6 mais uma vez")
 }
 
 func AddUser(w http.ResponseWriter, r *http.Request) {
@@ -20,8 +22,14 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Rertorna um membro pelo nome: %v\n", userName)
 }
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Update um membro pelo nome")
+	fmt.Fprintln(w, "Update um membro pelo nome")
 }
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Deleta um membro pelo nome")
+	fmt.Fprintln(w, "Deleta um membro pelo nome")
+}
+
+// so para testes
+func GetAllUsers(w http.ResponseWriter, r *http.Request) {
+	allUsers := models.SelecionaTodosUsers()
+	fmt.Fprintln(w, "todos os users:", allUsers)
 }
