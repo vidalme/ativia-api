@@ -1,12 +1,20 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
+
+	"github.com/vidalme/ativia-api/internal/controllers"
 )
 
-func RegisterRoutes() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Ola ativIA")
-	})
+func RegisterRoutes() *http.ServeMux {
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/", controllers.Default)
+	mux.HandleFunc("POST /user", controllers.AddUser)
+	mux.HandleFunc("POST /user/createWithArray", controllers.AddUsers)
+	mux.HandleFunc("GET /user/{userName}", controllers.GetUser)
+	mux.HandleFunc("PUT /user/{userName}", controllers.UpdateUser)
+	mux.HandleFunc("DELETE /user/{userName}", controllers.DeleteUser)
+
+	return mux
 }
