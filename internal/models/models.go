@@ -47,7 +47,7 @@ func AdicionaUser() error {
 	return nil
 }
 
-func BuscaTodosUsers() []User {
+func GetAllUsers() []User {
 	db := db.ConectaComBancoDeDados()
 	defer db.Close()
 
@@ -67,6 +67,7 @@ func BuscaTodosUsers() []User {
 		if err != nil {
 			panic(err.Error())
 		}
+
 		u.Id = id
 		u.UserStatus = userStatus
 		u.UserName = userName
@@ -80,4 +81,14 @@ func BuscaTodosUsers() []User {
 	}
 
 	return tu
+}
+
+func AddUser(userName, firstName, lastName, email, password, phone string, userStatus int) {
+	db := db.ConectaComBancoDeDados()
+
+	userDataSTMT, err := db.Prepare("insert into users(username, firstname, lastname, email, password, phone, userstatus) values ($1, $2, $3, $4, $5, $6, $7)")
+	if err != nil {
+		panic(err.Error())
+	}
+	userDataSTMT.Exec(userName, firstName, lastName, email, password, phone, userStatus)
 }

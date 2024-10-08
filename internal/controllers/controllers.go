@@ -12,13 +12,23 @@ var tmpl = template.Must(template.ParseGlob("templates/*.html"))
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprintln(w, "Ola ativia 0.0.6 mais uma vez")
-	us := models.BuscaTodosUsers()
-	fmt.Println(us)
-	tmpl.ExecuteTemplate(w, "Index", us)
+	tmpl.ExecuteTemplate(w, "Index", models.GetAllUsers())
+}
+
+func New(w http.ResponseWriter, r *http.Request) {
+	tmpl.ExecuteTemplate(w, "New", nil)
 }
 
 func AddUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Cria User")
+	userName := r.FormValue("user_name")
+	firstName := r.FormValue("first_name")
+	lastName := r.FormValue("last_name")
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+	phone := r.FormValue("phone")
+
+	models.AddUser(userName, firstName, lastName, email, password, phone, 1)
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 func AddUsers(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Adiciona multiplos novos membros")

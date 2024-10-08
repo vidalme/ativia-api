@@ -6,45 +6,64 @@
     <div class="container">
             <div class="jumbotron jumbotron-fluid" >
                 <div class="container">
-                    <h1 class="display-5">Novo produto</h1>
+                    <h1 class="display-5">Novo usuário</h1>
                     <p class="lead">Insira os detalhes</p>
                 </div>
             </div>
-            <form method="POST" action="insert">
+            <form method="POST" action="user">
                 <div class="row">
                     <div class="col-sm-8">
                         <div class="form-group">
-                            <label for="nome">Nome:</label>
-                            <input type="text" name="nome" class="form-control">
+                            <label for="user_name">Apelido (sem espaços):</label>
+                            <input type="text" name="user_name" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-8">
                         <div class="form-group">
-                            <label for="descricao">Descrição:</label>
-                            <input type="text" name="descricao" class="form-control">
+                            <label for="first_name">Primeiro Nome:</label>
+                            <input type="text" name="first_name" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="col-sm-8">
                         <div class="form-group">
-                            <label for="preco">Preço:</label>
-                            <input type="number" name="preco" class="form-control" step="0.01">
+                            <label for="last_name">Segundo Nome:</label>
+                            <input type="text" name="last_name" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="col-sm-8">
                         <div class="form-group">
-                            <label for="quantidade">Quantidade:</label>
-                            <input type="number" name="quantidade" class="form-control">
+                            <label for="email">Email:</label>
+                            <input type="text" name="email" class="form-control">
                         </div>
                     </div>
                 </div>
-                <button type="submit" value="salvar" class="btn btn-success">Salvar</button>
-                <a class="btn btn-info" href="/">Voltar</a>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="text" name="password" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="phone">Phone:</label>
+                            <input type="text" name="phone" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-sm-8  pt-3">
+                    <button type="submit" value="salvar" class="btn btn-success ">Salvar</button>
+                    <a class="btn btn-info" href="/">Voltar</a>
+                </div>
             </form>
     </div>
 </body>
