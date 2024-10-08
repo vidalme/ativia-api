@@ -2,13 +2,19 @@ package controllers
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 
 	"github.com/vidalme/ativia-api/internal/models"
 )
 
+var tmpl = template.Must(template.ParseGlob("templates/*.html"))
+
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Ola ativia 0.0.6 mais uma vez")
+	// fmt.Fprintln(w, "Ola ativia 0.0.6 mais uma vez")
+	us := models.BuscaTodosUsers()
+	fmt.Println(us)
+	tmpl.ExecuteTemplate(w, "Index", us)
 }
 
 func AddUser(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +35,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // so para testes
-func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	allUsers := models.SelecionaTodosUsers()
-	fmt.Fprintln(w, "todos os users:", allUsers)
-}
+// func GetAllUsers(w http.ResponseWriter, r *http.Request) {
+// 	allUsers := models.BuscaTodosUsers()
+// 	fmt.Fprintln(w, "todos os users:", allUsers)
+// }

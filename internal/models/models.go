@@ -6,7 +6,7 @@ import (
 
 type User struct {
 	Id         int
-	Username   string
+	UserName   string
 	FirstName  string
 	LastName   string
 	Email      string
@@ -14,7 +14,7 @@ type User struct {
 	Phone      string
 	UserStatus int
 	// Id         int    `json:"id"`
-	// Username   string `json:"username"`
+	// UserName   string `json:"UserName"`
 	// FirstName  string `json:"firstname"`
 	// LastName   string `json:"lastname"`
 	// Email      string `json:"email"`
@@ -23,7 +23,31 @@ type User struct {
 	// UserStatus int    `json:"userstatus"`
 }
 
-func SelecionaTodosUsers() []User {
+func AdicionaUser() error {
+
+	// var user User
+
+	// user.Id = 123
+	// user.UserName = "Fulano_DiTal"
+	// user.FirstName = "Fulano"
+	// user.LastName = "DiTal"
+	// user.Email = "fulanodital@ativia.com"
+	// user.Password = "qwe"
+	// user.Phone = "23344455566"
+	// user.UserStatus = 1
+
+	// selectTodosUsers, err := db.Query("INSERT ")
+
+	// 	INSERT INTO users (id, column2, column3, ...)
+	// VALUES (value1, value2, value3, ...);
+
+	db := db.ConectaComBancoDeDados()
+	defer db.Close()
+
+	return nil
+}
+
+func BuscaTodosUsers() []User {
 	db := db.ConectaComBancoDeDados()
 	defer db.Close()
 
@@ -45,7 +69,7 @@ func SelecionaTodosUsers() []User {
 		}
 		u.Id = id
 		u.UserStatus = userStatus
-		u.Username = userName
+		u.UserName = userName
 		u.FirstName = firstName
 		u.LastName = lastName
 		u.Email = email

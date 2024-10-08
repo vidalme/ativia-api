@@ -10,7 +10,6 @@ func RegisterRoutes() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", controllers.Index)
-	mux.HandleFunc("GET /allusers", controllers.GetAllUsers)
 	mux.HandleFunc("POST /user", controllers.AddUser)
 	mux.HandleFunc("POST /user/createWithArray", controllers.AddUsers)
 	mux.HandleFunc("GET /user/{userName}", controllers.GetUser)
