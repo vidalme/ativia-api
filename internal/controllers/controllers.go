@@ -43,8 +43,10 @@ func AddUsers(w http.ResponseWriter, r *http.Request) {
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	userName := r.PathValue("userName")
-	fmt.Fprintf(w, "Rertorna um membro pelo nome: %v\n", userName)
+	models.SelectUser(w, userName)
+	// fmt.Fprintln(w, userName)
 }
+
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Update um membro pelo nome")
 }

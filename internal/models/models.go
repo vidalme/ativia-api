@@ -1,6 +1,9 @@
 package models
 
 import (
+	"fmt"
+	"net/http"
+
 	"github.com/vidalme/ativia-api/internal/db"
 )
 
@@ -97,9 +100,22 @@ func DeleteUser(userName string) {
 	db := db.ConectaComBancoDeDados()
 	defer db.Close()
 
-	userNameSTMT, err := db.Prepare("delete from users where username=$1")
+	userDataSTMT, err := db.Prepare("delete from users where username=$1")
 	if err != nil {
 		panic(err.Error())
 	}
-	userNameSTMT.Exec(userName)
+	userDataSTMT.Exec(userName)
+}
+
+func SelectUser(w http.ResponseWriter, userName string) {
+	db := db.ConectaComBancoDeDados()
+	defer db.Close()
+
+	userDataSTMT, err := db.Prepare("select from users where username=$1")
+	if err != nil {
+		panic(err.Error())
+	}
+	userDataSTMT.Exec(userName)
+	fmt.Fprintln(w, userDataSTMT)
+
 }
