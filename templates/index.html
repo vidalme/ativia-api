@@ -22,9 +22,16 @@
                             <td>{{.Email}}</td>
                             <td>{{.Phone}}</td>
                             <td>{{.UserStatus}}</td>
-                            <td><a href="/edit?id={{.Id}}" class="btn btn-info">Editar</a></td>                            
-                            <!-- <td><a href="/delete?id={{.Id}}" class="btn btn-danger">Deletar</a></td>                             -->
-                            <td><button onclick="onDelete('{{.Id}}')" class="btn btn-danger">Deletar</button></td>                            
+                            <td><a href="/edit?id={{.UserName}}" class="btn btn-info">Editar</a></td>                            
+                            <td>
+                                <!-- <button  class="btn btn-danger">Deletar</button> -->
+
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button onclick="onDelete('{{.UserName}}')" type="submit" class="btn btn-danger">Deletar</button>
+                            </td>  
+
+                            
+
                         </tr>
                         {{end}}
                     </tbody>
@@ -39,10 +46,10 @@
     </div>
 </body>
 <script>
-    function onDelete(id){
-        let resposta = confirm("Tem certeza que deseja remover esse usuário?")
+    function onDelete(username) {
+        let resposta = confirm("Tem certeza que deseja remover o usuário " + username + "?");
         if (resposta) {
-            window.location = "/delete?id="+id
+            window.location = "/user/" + username;
         }
     }
 </script>

@@ -92,3 +92,14 @@ func AddUser(userName, firstName, lastName, email, password, phone string, userS
 	}
 	userDataSTMT.Exec(userName, firstName, lastName, email, password, phone, userStatus)
 }
+
+func DeleteUser(userName string) {
+	db := db.ConectaComBancoDeDados()
+	defer db.Close()
+
+	userNameSTMT, err := db.Prepare("delete from users where username=$1")
+	if err != nil {
+		panic(err.Error())
+	}
+	userNameSTMT.Exec(userName)
+}

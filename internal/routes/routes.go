@@ -15,7 +15,7 @@ func RegisterRoutes() *http.ServeMux {
 	mux.HandleFunc("POST /user/createWithArray", controllers.AddUsers)
 	mux.HandleFunc("GET /user/{userName}", controllers.GetUser)
 	mux.HandleFunc("PUT /user/{userName}", controllers.UpdateUser)
-	mux.HandleFunc("DELETE /user/{userName}", controllers.DeleteUser)
+	mux.HandleFunc("DELETE /user/{userName}", controllers.RemoveUser)
 
 	return mux
 }
