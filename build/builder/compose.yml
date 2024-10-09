@@ -1,29 +1,29 @@
 version: "3"
 
 services:
-  # service:
-  #   image: vidalme/ativia-api:0.0.5
-  #   # build:
-  #   #   context: .
-  #   #   dockerfile: Dockerfile
-  #   environment:
-  #     DBHOST: "postgres"
-  #     DBPORT: "5432"
-  #     DBUSER: "admin"
-  #     DBPASS: "qwe"
-  #     DBNAME: "ativia-db"
-  #     SSLMODE: "disable"
-  #   volumes:
-  #     - ../../:/src
-  #   working_dir: "/src"
-  #   depends_on:
-  #     - postgres
-  #   stdin_open: true
-  #   tty: true
-  #   ports:
-  #     - "2113:2113"
-  #   networks:
-  #     - network
+  service:
+    image: vidalme/ativia-api:1.0.0
+    build:
+      context: ../../
+      dockerfile: build/builder/Dockerfile
+    environment:
+      DBHOST: "postgres"
+      DBPORT: "5432"
+      DBUSER: "admin"
+      DBPASS: "qwe"
+      DBNAME: "ativia-db"
+      SSLMODE: "disable"
+    volumes:
+      - ../../:/src
+    working_dir: "/src"
+    depends_on:
+      - postgres
+    stdin_open: true
+    tty: true
+    ports:
+      - "2113:2113"
+    networks:
+      - network
 
   postgres:
     image: postgres:17
