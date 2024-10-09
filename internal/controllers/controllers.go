@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
+	"io"
 	"net/http"
 
 	"github.com/vidalme/ativia-api/internal/models"
@@ -11,7 +13,6 @@ import (
 var tmpl = template.Must(template.ParseGlob("templates/*.html"))
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	// fmt.Fprintln(w, "Ola ativia 0.0.6 mais uma vez")
 	tmpl.ExecuteTemplate(w, "Index", models.GetAllUsers())
 }
 
@@ -20,6 +21,7 @@ func New(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddUser(w http.ResponseWriter, r *http.Request) {
+
 	userName := r.FormValue("user_name")
 	firstName := r.FormValue("first_name")
 	lastName := r.FormValue("last_name")
@@ -37,14 +39,19 @@ func RemoveUser(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
-func AddUsers(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Adiciona multiplos novos membros")
-}
-
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	userName := r.PathValue("userName")
-	models.SelectUser(w, userName)
-	// fmt.Fprintln(w, userName)
+	// tmpl.ExecuteTemplate(w, "User", "quaklqueru")
+	tmpl.ExecuteTemplate(w, "User", models.SelectUser(userName))
+}
+
+func AddUsers(w http.ResponseWriter, r *http.Request) {
+	// gin transforms in a single method
+	users := []models.User{}
+	data, _ := io.ReadAll(r.Body)
+	json.Unmarshal(data, &users)
+	// ----
+	fmt.Fprintln(w, "Adiciona multiplos novos membros")
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {

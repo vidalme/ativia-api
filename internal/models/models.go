@@ -1,9 +1,6 @@
 package models
 
 import (
-	"fmt"
-	"net/http"
-
 	"github.com/vidalme/ativia-api/internal/db"
 )
 
@@ -24,30 +21,6 @@ type User struct {
 	// Password   string `json:"password"`
 	// Phone      string `json:"phone"`
 	// UserStatus int    `json:"userstatus"`
-}
-
-func AdicionaUser() error {
-
-	// var user User
-
-	// user.Id = 123
-	// user.UserName = "Fulano_DiTal"
-	// user.FirstName = "Fulano"
-	// user.LastName = "DiTal"
-	// user.Email = "fulanodital@ativia.com"
-	// user.Password = "qwe"
-	// user.Phone = "23344455566"
-	// user.UserStatus = 1
-
-	// selectTodosUsers, err := db.Query("INSERT ")
-
-	// 	INSERT INTO users (id, column2, column3, ...)
-	// VALUES (value1, value2, value3, ...);
-
-	db := db.ConectaComBancoDeDados()
-	defer db.Close()
-
-	return nil
 }
 
 func GetAllUsers() []User {
@@ -107,15 +80,31 @@ func DeleteUser(userName string) {
 	userDataSTMT.Exec(userName)
 }
 
-func SelectUser(w http.ResponseWriter, userName string) {
+func SelectUser(un string) User {
 	db := db.ConectaComBancoDeDados()
 	defer db.Close()
 
-	userDataSTMT, err := db.Prepare("select from users where username=$1")
+	selectUserQuery := "select * from users where username=$1"
+	row := db.QueryRow(selectUserQuery, un)
+
+	var id, userStatus int
+	var userName, firstName, lastName, email, password, phone string
+
+	err := row.Scan(&id, &userName, &firstName, &lastName, &email, &password, &phone, &userStatus)
 	if err != nil {
 		panic(err.Error())
 	}
-	userDataSTMT.Exec(userName)
-	fmt.Fprintln(w, userDataSTMT)
+
+	u := User{}
+	u.Id = id
+	u.UserStatus = userStatus
+	u.UserName = userName
+	u.FirstName = firstName
+	u.LastName = lastName
+	u.Email = email
+	u.Password = password
+	u.Phone = phone
+
+	return u
 
 }
