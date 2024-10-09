@@ -5,22 +5,22 @@ import (
 )
 
 type User struct {
-	Id         int
-	UserName   string
-	FirstName  string
-	LastName   string
-	Email      string
-	Password   string
-	Phone      string
-	UserStatus int
-	// Id         int    `json:"id"`
-	// UserName   string `json:"UserName"`
-	// FirstName  string `json:"firstname"`
-	// LastName   string `json:"lastname"`
-	// Email      string `json:"email"`
-	// Password   string `json:"password"`
-	// Phone      string `json:"phone"`
-	// UserStatus int    `json:"userstatus"`
+	// Id         int
+	// UserName   string
+	// FirstName  string
+	// LastName   string
+	// Email      string
+	// Password   string
+	// Phone      string
+	// UserStatus int
+	Id         int    `json:"id"`
+	UserName   string `json:"username"`
+	FirstName  string `json:"firstname"`
+	LastName   string `json:"lastname"`
+	Email      string `json:"email"`
+	Password   string `json:"password"`
+	Phone      string `json:"phone"`
+	UserStatus int    `json:"userstatus"`
 }
 
 func GetAllUsers() []User {
@@ -113,14 +113,31 @@ func SelectUser(un string) User {
 
 	u := User{}
 	u.Id = id
-	u.UserStatus = userStatus
 	u.UserName = userName
 	u.FirstName = firstName
 	u.LastName = lastName
 	u.Email = email
 	u.Password = password
 	u.Phone = phone
+	u.UserStatus = userStatus
 
 	return u
+}
+
+func EditUser(oldUserName string, userStatusConvInt int, user User) {
+	db := db.ConectaComBancoDeDados()
+	defer db.Close()
+
+	editUserQuery := "update users set username=$1, firstname=$2, lastname=$3, email=$4, password=$5, phone=$6, userstatus=$7 where username=$8;"
+	editUser, err := db.Prepare(editUserQuery)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// fmt.Printf("a variavel user.UserStatus é do tipo %T e tem o valor de %d\n", user.UserStatus, user.UserStatus)
+	_, err = editUser.Exec(user.UserName, user.FirstName, user.LastName, user.Email, user.Password, user.Phone, userStatusConvInt, oldUserName)
+	if err != nil {
+		panic(err.Error())
+	}
 
 }

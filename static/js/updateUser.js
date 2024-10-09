@@ -1,4 +1,4 @@
-function onUpdate() {
+function onUpdate(username) {
     // Collect form data
     const formData = {
         id: document.getElementById('id').value,
@@ -8,11 +8,11 @@ function onUpdate() {
         email: document.getElementById('email').value,
         password: document.getElementById('password').value,
         phone: document.getElementById('phone').value,
-        suerStatus: document.getElementById('user_status').value
+        userStatus: document.getElementById('user_status').value
     };
 
     // Perform a PUT request using fetch
-    fetch('/user', {
+    fetch('/user/'+username, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

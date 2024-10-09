@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"io"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/vidalme/ativia-api/internal/models"
 )
@@ -50,11 +51,24 @@ func AddUsers(w http.ResponseWriter, r *http.Request) {
 	data, _ := io.ReadAll(r.Body)
 	json.Unmarshal(data, &users)
 	// ----
-
 	models.AddUsers(users)
-
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Update um membro pelo nome")
+	user := models.User{}
+
+	// salva o antigo nome para poder selecionar o campo a ser editado de dentro de models
+	oldUserName := r.PathValue("userName")
+	data, _ := io.ReadAll(r.Body)
+	json.Unmarshal(data, &user)
+
+	// gambiarra nivel leve que extrai o user_status de dentro do json pra enviar como type int
+	a := strings.Split(string(data), "\"")
+	userStatusConvInt, err := strconv.Atoi(a[len(a)-2])
+	if err != nil {
+		panic(err.Error())
+	}
+
+	models.EditUser(oldUserName, userStatusConvInt, user)
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
