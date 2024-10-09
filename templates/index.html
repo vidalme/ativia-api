@@ -22,16 +22,10 @@
                             <td>{{.Email}}</td>
                             <td>{{.Phone}}</td>
                             <td>{{.UserStatus}}</td>
-                            <td><a href="/edit?id={{.UserName}}" class="btn btn-info">Editar</a></td>                            
-                            <td>
-                                <!-- <button  class="btn btn-danger">Deletar</button> -->
-
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button onclick="onDelete('{{.UserName}}')" type="submit" class="btn btn-danger">Deletar</button>
-                            </td>  
-
                             
-
+                            <td><a href="/edit?id={{.Id}}" class="btn btn-info">Editar</a></td>         
+                            <td><button onclick="onDelete('{{.UserName}}')" type="button" class="btn btn-danger">Deletar</button></td>
+                            
                         </tr>
                         {{end}}
                     </tbody>
@@ -41,15 +35,31 @@
         <div class="card-footer pt-3">
             <a href="/new" class="btn btn-primary mb-2">Adiciona novo usuário</a>
         </div>
-
-
     </div>
 </body>
 <script>
+
     function onDelete(username) {
         let resposta = confirm("Tem certeza que deseja remover o usuário " + username + "?");
         if (resposta) {
-            window.location = "/user/" + username;
+            fetch("/user/" + username, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Usuário removido com sucesso!");
+                    window.location.reload();
+                } else {
+                    alert("Erro ao remover o usuário.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Ocorreu um erro ao tentar remover o usuário.");
+            });
         }
     }
 </script>
