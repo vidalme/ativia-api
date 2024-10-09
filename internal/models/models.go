@@ -5,14 +5,6 @@ import (
 )
 
 type User struct {
-	// Id         int
-	// UserName   string
-	// FirstName  string
-	// LastName   string
-	// Email      string
-	// Password   string
-	// Phone      string
-	// UserStatus int
 	Id         int    `json:"id"`
 	UserName   string `json:"username"`
 	FirstName  string `json:"firstname"`
