@@ -1,0 +1,68 @@
+{{define "User"}}
+{{template "_head"}}
+{{template "_menu"}}
+
+<body>
+    <div class="container">
+        <section class="card">
+            <div>
+                <table class="table table-striped table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Apelido</th>
+                            <th>Nome</th>
+                            <th>Sobrenome</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Phone</th>
+                            <th>UserStatus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{.UserName}}</td>
+                            <td>{{.FirstName}}</td>
+                            <td>{{.LastName}}</td>
+                            <td>{{.Email}}</td>
+                            <td>{{.Password}}</td>
+                            <td>{{.Phone}}</td>
+                            <td>{{.UserStatus}}</td>
+                            
+                            <td><a href="/user/{{.UserName}}" class="btn btn-info">Editar</a></td>         
+                            <td><button onclick="onDelete('{{.UserName}}')" type="button" class="btn btn-danger">Deletar</button></td> 
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</body>
+<script>
+
+    function onDelete(username) {
+        let resposta = confirm("Tem certeza que deseja remover o usuário " + username + "?");
+        if (resposta) {
+            fetch("/user/" + username, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Usuário removido com sucesso!");
+                    window.location.reload();
+                } else {
+                    alert("Erro ao remover o usuário.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Ocorreu um erro ao tentar remover o usuário.");
+            });
+        }
+    }
+</script>
+</html>
+{{end}}
