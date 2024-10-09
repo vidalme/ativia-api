@@ -61,12 +61,28 @@ func GetAllUsers() []User {
 
 func AddUser(userName, firstName, lastName, email, password, phone string, userStatus int) {
 	db := db.ConectaComBancoDeDados()
+	defer db.Close()
 
 	userDataSTMT, err := db.Prepare("insert into users(username, firstname, lastname, email, password, phone, userstatus) values ($1, $2, $3, $4, $5, $6, $7)")
 	if err != nil {
 		panic(err.Error())
 	}
 	userDataSTMT.Exec(userName, firstName, lastName, email, password, phone, userStatus)
+}
+
+func AddUsers(users []User) {
+	db := db.ConectaComBancoDeDados()
+	defer db.Close()
+
+	userDataSTMT, err := db.Prepare("insert into users(username, firstname, lastname, email, password, phone, userstatus) values ($1, $2, $3, $4, $5, $6, $7)")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for _, u := range users {
+		userDataSTMT.Exec(u.UserName, u.FirstName, u.LastName, u.Email, u.Password, u.Phone, u.UserStatus)
+	}
+
 }
 
 func DeleteUser(userName string) {

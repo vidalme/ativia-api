@@ -41,7 +41,6 @@ func RemoveUser(w http.ResponseWriter, r *http.Request) {
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	userName := r.PathValue("userName")
-	// tmpl.ExecuteTemplate(w, "User", "quaklqueru")
 	tmpl.ExecuteTemplate(w, "User", models.SelectUser(userName))
 }
 
@@ -51,15 +50,11 @@ func AddUsers(w http.ResponseWriter, r *http.Request) {
 	data, _ := io.ReadAll(r.Body)
 	json.Unmarshal(data, &users)
 	// ----
-	fmt.Fprintln(w, "Adiciona multiplos novos membros")
+
+	models.AddUsers(users)
+
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Update um membro pelo nome")
 }
-
-// so para testes
-// func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-// 	allUsers := models.BuscaTodosUsers()
-// 	fmt.Fprintln(w, "todos os users:", allUsers)
-// }
